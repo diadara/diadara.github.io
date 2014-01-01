@@ -1,0 +1,74 @@
+---
+layout: post
+title: "New year"
+date: 2014-01-02 00:10:22 +0530
+comments: true
+published: true
+categories: life
+---
+
+Last year was full of ups and downs and I can honestly say that I am a
+changed man.
+
+![alt text](images/post/red.jpeg "Rehabilitated")
+
+> You feel you've been rehabilitated?
+>
+>Red: Yes, sir.
+>Absolutely. I've learned my lesson. I can honestly say I'm a changed
+>man. I'm no longer a danger to society. That's the God's honest truth.
+>No doubt about it.
+
+I have burnt a lot of bridges this year and created a few. I have no
+regrets. One of the highlights of 2013 has been getting selected for
+[http://www.google-melange.com/gsoc/homepage/google/gsoc2013](GSoC).
+I had worked a lot to get selected and my acads suffered a lot because
+of that. The whole affair proved to me that you could probably do
+anything given time if you genuinely want to do it. I was also
+disappointed a bit with the whole affair as I found myself losing
+interest after sometime. I can't blame anything for it except my short
+attention span. In the end I barely scraped through. Again I did
+manage to learn a lot of stuff like python packaging, writing
+documentation and some related stuff.
+
+I have tried to learn at least half a dozen distinct languages this
+year and picked up a lot of things. The lack of mastery is the only
+thing that worries me. I have made it to point to focus on making
+things rather than learning stuff from now on. Let's seen how that
+pans out.
+
+Another important change this year has been, switching to Emacs. One
+thing I have noticed is how Emacs encourages it's users to look under
+that hood and hack stuff. I you don't understand a particular key
+binding or function just hit `C-h k` or `C-h f` and you will get the
+docs with a link to the source. I am sure this philosophy of
+everything is hackable will flow into the users day to day work flow.
+
+
+Also I managed to read a few books last year. I certainly plan to
+increase my book consumption  the coming year. Last year was pretty
+disappointing with respect to TV. Breaking Bad and Homeland were the
+only exceptions. Person of interest shown in intervals and that was
+enough to keep me coming back every week though the lack of
+alternatives must have been the main reason.
+
+This year I had signed up for a number of MOOCs and only managed to
+complete one. The one I managed to complete was BerkleyX's SaSS 1.
+It's a pretty challenging course If you haven't done any rails
+before.I learned a lot. I had signed up for the Scala course by Martin
+Oderski, the programming languages course in Coursera, Andrew NG's ML
+course, history of rock course on coursera, Georgia Tech's
+Computational Finance and a few others. I had left them due to the
+lack of time. Come to think of it I could have completed a couple if I
+had concentrated my efforts. One more thing to change.
+
+This year also saw Real Madrid and Arsenal both not winning anything.
+Hope both do well this year.
+
+So apart from the usual resolutions, the ones I hope to keep are
+
+*  read more.
+*  code more.
+*  complete some MOOCs(I have already signed up for a few)
+*  contribute more to open-source.
+*  master something.
