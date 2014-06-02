@@ -1,0 +1,45 @@
+---
+layout: post
+title: "GSoC 2014: Lua Scripting Support for Monkey, Week 2"
+date: 2014-06-02 01:52:24 +0530
+comments: true
+categories: gsoc, monkey, programming
+---
+
+
+This week started with the aim of setting up a unit testing framework
+for the plugin and do test driven development from now on wards. My
+configure function is working and I wanted to add a few tests so that
+everything could be tested automatically.I started out with learning
+how to use CUnit and made some basic tests. I got sick in between and
+had to take couple of days off in between and lost my flow. I also ran
+into complications as I wasn't  sure whether I could mock everything
+from the monkey api for testing. I am currently stuck on how to mock
+the monkey api for unit testing as I didn't want to compile the whole
+repository for unit testing the plugin.
+
+So I put the unit testing on hold for a while and started working on
+the environment preparation steps for running lua scripts. Unit testing
+these functions where easier to implement as I wont require session
+request. I have wrapped some of the config into a lua table that will
+be injected into the lua environment and the custom mk_print will be
+used to populate a buffer that will be used to set up the return the
+values to the user.
+
+
+
+Plan for next week:
+Clean up and consolidate all the work done till now so I can follow
+TDD and go at a faster pace from now on wards.
+
+- Catch up to the schedule and figure out a way to setup unit testing
+  properly
+- finish the api for returning results
+
+I am slightly behind schedule as I rabbit holed a bit this week and
+also had to stay away from work due to some health issues.
+
+code:[https://github.com/diadara/monkey/tree/lua-exp](github)
+
+I am currently re factoring the code so that it, could be tested
+easily.
