@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "GSoC 2014: Lua Scripting Support for Monkey"
+title: "GSoC 2014: Lua Scripting Support for Monkey, Week 1"
 date: 2014-05-26 00:28:51 +0530
 comments: true
 categories: gsoc, monkey, programming
