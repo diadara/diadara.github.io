@@ -39,7 +39,7 @@ TDD and go at a faster pace from now on wards.
 I am slightly behind schedule as I rabbit holed a bit this week and
 also had to stay away from work due to some health issues.
 
-code:[https://github.com/diadara/monkey/tree/lua-exp](github)
+code:[github](https://github.com/diadara/monkey/tree/lua-exp)
 
 I am currently re factoring the code so that it, could be tested
 easily.
