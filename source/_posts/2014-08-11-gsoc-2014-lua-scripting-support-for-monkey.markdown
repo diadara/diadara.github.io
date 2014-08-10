@@ -56,7 +56,8 @@ well as make it possible to use many of the existing libraries for
 openresty to monkey lua without much effort other than that required
 for dealing with lua 5.1 vs lua 5.2 issues.
 
-This week I completed a for the api documentation. I have
-a version of the plugin that is functional in the testing branch of
-the repo. Making the plugin non blocking by using co sockets requires
-some effort and I will try to finish this before the pencils down date.
+This week I completed a for the api documentation. I have a version of
+the plugin that is functional in the testing branch of the repo.
+Making the plugin non blocking by using co sockets requires some
+effort and I have started writing code for this. I will try to finish
+this before the pencils down date.
