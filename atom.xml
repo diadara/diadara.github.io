@@ -4,7 +4,7 @@
   <title><![CDATA[Nithin Saji]]></title>
   <link href="http://diadara.github.io/atom.xml" rel="self"/>
   <link href="http://diadara.github.io/"/>
-  <updated>2014-08-18T01:29:27+05:30</updated>
+  <updated>2014-08-18T01:30:38+05:30</updated>
   <id>http://diadara.github.io/</id>
   <author>
     <name><![CDATA[Nithin Saji]]></name>
@@ -41,7 +41,7 @@ all the guidance they have given throughout the program. The plugin
 can be improved in a lot of ways and I plan to work on it after the
 GSoC, the socket library wrapper is on my list first. This will allow
 porting openresty  libraries to monkey thus providing an alternative
-to duda for writing web applications with minimum hassle with lua.c</p>
+to duda for writing web applications with minimum hassle with lua.</p>
 ]]></content>
   </entry>
   
