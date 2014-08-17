@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Nithin Saji]]></title>
+  <link href="http://diadara.github.io/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey]]></title>
+    <link href="http://diadara.github.io/blog/2014/08/18/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-08-18T00:36:55+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/08/18/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week, I managed to figure out what was causing the issue with my
+previous version of the plugin. As I discussed in my previous blog
+post, I changed the code execution model for the plugin. Now the code
+for the script is loaded as a lua co-routine and executed. Currently
+the plugin will block the thread if you make a blocking call from lua.
+This can be fixed by yielding to the event loop.</p>
+
+<p>Two approaches are possible to make the plugin 100% non blocking. One
+is to write custom lua modules for making network calls that will
+integrate with the plugins event loop. Another possible approach as I
+discussed earlier was to wrap the sockets api. Currently, the plugin
+is functional although I have to check for memory leaks and other
+issues.</p>
+
+<p>I started out the project planning to accomplish a lot more, however I
+had a few roadblocks that really slowed down the progress. I had
+struggled a lot but I have learned a lot about things like event
+loops, networking, the HTTP specification, lua,  coroutines, and a
+bunch of other interesting stuff. I want to that Eduardo and Jorge for
+all the guidance they have given throughout the program. The plugin
+can be improved in a lot of ways and I plan to work on it after the
+GSoC, the socket library wrapper is on my list first. This will allow
+porting openresty  libraries to monkey thus providing an alternative
+to duda for writing web applications with minimum hassle with lua.c</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GsoC 2014: Lua Scripting support for Monkey, Week 12]]></title>
+    <link href="http://diadara.github.io/blog/2014/08/11/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-08-11T01:12:58+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/08/11/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>In order to implement a nonblocking way to excecute the lua code for
+the plugin I have been reading ngnix&rsquo;s
+<a href="HttpLuaModule">http://wiki.nginx.org/HttpLuaModule</a>. The module is
+implemented with one LUA VM per worker and each lua call/request is
+run with it&rsquo;s own coroutine. This seems to be a better approach than
+the one I am currently using as this removes the latency involved in
+creating a Lua state per request as coroutines are much more
+lightweight compared to lua_state, I am currently rewriting some of
+the code to work in this way as it might offer much more flexibility
+and performance.</p>
+
+<p>from the
+<a href="lua%0Angnix%20module%20wiki">https://github.com/openresty/lua-nginx-module/wiki/Introduction</a></p>
+
+<blockquote><p>Lua-nginx-module integrated Lua into NginX, and providing
+high-concurrent &amp; non-blocking request processing ability without
+forcing developers explicitly dividing business logics into state
+machine. Developers can write their programs in plain-old sequential
+ways, and lua-nginx-module will automatically interrupt the program
+logic at blockable I/O operations, save the context and delegate these
+I/O ops to NginX’s event mechanism. When I/O ops are done,
+lua-nginx-module will restore the context and restore the normal
+running of the program logic. User program itself will feel everything
+as usual as never being interrupted.</p>
+
+<p>Lua-nginx-module uses one-coroutine-per-request
+request handling model, i.e. for each incoming request,
+lua-nginx-module creates a coroutine to run user code to process the
+request, and the coroutine will be destroyed when the request handling
+process is done. Every coroutine has its own independent global
+environment, which inherits shared read-only common data. So any
+global values injected by the user code won’t affect other request’s
+processing, and will be freed when request handling is done. You can
+imagine that user code is running in a ‘sandbox’, which shares the
+same lifecycle with the request itself. By this way, lua-nginx-module
+can prevent memory-leak caused by abusing uses of global values in
+user code, hence improve robustness.</p></blockquote>
+
+<p>The non blocking behaviour of the module is achieved by using
+coroutines with blocking calls that yields to the event loop. This is
+done using something called <code>cosockets</code> which makes writing sequential
+code that works in non blocking way. In order to implement similar
+functionality in monkey, this co sockets api has to rewritten to
+integrate with monkeys event loop. Although this would require in
+effect writing a socket library for lua that specifically works with
+monkey, this will make adding more libraries easier in the future as
+well as make it possible to use many of the existing libraries for
+openresty to monkey lua without much effort other than that required
+for dealing with lua 5.1 vs lua 5.2 issues.</p>
+
+<p>This week I completed a for the api documentation. I have a version of
+the plugin that is functional in the testing branch of the repo.
+Making the plugin non blocking by using co sockets requires some
+effort and I have started writing code for this. I will try to finish
+this before the pencils down date.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting support for monkey, Week 11]]></title>
+    <link href="http://diadara.github.io/blog/2014/08/04/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-08-04T12:30:55+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/08/04/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I haven&rsquo;t been able to figure out what is causing the looping issue
+that had been troubling me from last week. I have created a branch
+with the old version of plugin working in blocking mode. The plugin&rsquo;s
+current execution model is not efficient as it might block the server
+thread and a thread based model is also scalable. Also I am creating a
+new lua_state instance per request which could be avoided.</p>
+
+<p>I have identified similar areas for performance improvement and most
+important of all will be to use a coroutine based approach for
+executing the lua code similar to nginx&rsquo;s lua module.I have started
+documenting everything that are working right now.In the coming weeks,
+I will complete the documentation and move on to fixing issues that I
+have identified.</p>
+
+<p>code: <a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting support for monkey, Week 10]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/28/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-28T03:40:32+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/28/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I seem to have hit a roadblock as I am facing some issues with
+integrating the plugin with monkey. Last week I had a working
+implementation for the plugin, however on further testing, I noticed
+that the plugin will fail while using some features which make use of
+the monkey api as the lua execution happens in a new thread. I have
+been trying to figure out ways to circumvent the issues without any
+luck as I had limited time due to school work.</p>
+
+<p>A temporary solution was to execute the lua code in the plugin context
+itself, blocking the thread. I also found a few more issues with the
+current implementation which  I am having a little  trouble in fixing.</p>
+
+<p>My project is lagging behind the initial plan I had in mind, I will
+try my level best from now on to make up for the lost time and
+complete the project in time.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 9]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-21T21:30:35+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I have completed a bare version of the plugin and started working on
+code for monitoring lua&rsquo;s resource usage. Last week was mostly spend
+on wiring everything together from last weeks work. I have also
+started reading code for integrating the plugin with duda. I haven&rsquo;t
+figured out how to proceed on it and haven&rsquo;t been able to get in touch
+with Jorge this week. I will discuss with him on how to proceed next
+week.</p>
+
+<p>Most of the work this week was mostly re-factoring my old code to fit
+in with the the plugin system and reading</p>
+
+<p>code: <a href="https://github.com/diadara/monkey_lua">https://github.com/diadara/monkey_lua</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting support for monkey, Week 8]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/14/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-14T00:01:53+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/14/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>As mentioned in the last post, the week before the last one I was
+trying to understand event driven programming and monkeys use of epoll
+to serve large number of connections and had started writing the
+response part of the plugin and struggled to complete it.This week was
+also spent on the same task except that I think I have a hold of what
+am I doing. I have been studying the fast cgi and cgi plugins for
+figuring out how to deal with writing response back to the client.</p>
+
+<p>The CGI plugin maintains a list of connections and forks to execute
+the script with a <code>execv</code> and uses two pipes to communicate with the
+parent and uses epoll for getting notification when it has something
+to read from the pipe and write back to the client. Similarly fast cgi
+has it&rsquo;s own socket for communicating with monkey and uses epoll for
+notification. In case of the lua plugin, I had a few options to
+implement it. Till now, I have been executing lua code from the monkeys
+thread which obviously will prevent the thread from doing anything else.
+So the solution is to either fork and execute or spawn a new thread.</p>
+
+<p>Currently, there is no particular advantage of using epoll to get
+notification from the lua thread as I can only start writing to the
+client socket once the entire lua script finish executing.I am stuck
+on putting together this small detail and the plugin should be ready
+in a bare metal state.</p>
+
+<p>Next Week, I will sort out the remaining details for IO also taking
+into acount chunked encoding and figure out a way to collect some
+metrics on the execution.</p>
+
+<p><a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 7]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/07/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-07T06:22:55+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/07/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week, I was trying to get a better Idea about event driven
+programming especially using epoll in specific so that I can integrate
+the plugin with monkey. I found a bunch of great resources for
+understanding epoll as well as other strategies and system calls
+available in various operating systems to achieve concurrency.</p>
+
+<p><a href="http://kovyrin.net/2006/04/13/epoll-asynchronous-network-programming/">http://kovyrin.net/2006/04/13/epoll-asynchronous-network-programming/</a></p>
+
+<p><a href="http://www.wangafu.net/~nickm/libevent-book/01_intro.html">http://www.wangafu.net/~nickm/libevent-book/01_intro.html</a></p>
+
+<p>I started working on sending the response back to the client by
+hooking to the epoll callbacks instead of the blocking way I was using
+till now to get things done till now.</p>
+
+<p>Also, I was looking at a way to execute the lua code in a non
+blocking way. The popular approach is to use a watchdog timer or
+something along the lines mentioned in this thread</p>
+
+<p><a href="http://lua-users.org/wiki/NonBlockingLuaExecution">http://lua-users.org/wiki/NonBlockingLuaExecution</a></p>
+
+<p><a href="http://lua.2524044.n2.nabble.com/Nonblocking-script-execution-td7641186.html">http://lua.2524044.n2.nabble.com/Nonblocking-script-execution-td7641186.html</a></p>
+
+<p>I still haven&rsquo;t figured out a working way to make everything work
+together and so haven&rsquo;t pushed in my changes as I am running into some
+errors.</p>
+
+<p>I had to move to a new apartment this week and was under some time
+constraints and this weeks work required a lot more reading before I
+started coding so, that leaves me with no working code till now, I
+will try to fix up my code and push it by tonight.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 6]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/01/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-01T00:38:16+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/01/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>Last week, I started to  re-factor the code I had already written for
+the plugin. During the course of the project, I have been reading
+source code from  ngnix and apache respective lua modules to
+understand good coding patterns for lua and to understand good ways
+for getting things done. I am using LUA&rsquo;s lightuserdata that allows to
+access C datastructures from LUA code and also wrote a bunch of
+functions to help building on top of it easier. Also I have tried to
+make the code more modular.</p>
+
+<p>I was also working on adding cookie support to the lua environment,
+which took more time than I had expected. You
+can get a table of all the set cookies from <code>mk.cookies.get_cookies()</code>
+function call and set a cookie by this syntax
+<code>mk.cookie.set_cookie{name=[name], value=[value], secure=true,
+expires= os.time()+ 60*60*12}</code></p>
+
+<h4>Next Week:</h4>
+
+<ul>
+<li>Make the response in a non blocking way</li>
+<li>Start work on the duda plugin</li>
+</ul>
+
+
+<h3>code:</h3>
+
+<p><a href="https://github.com/diadara/monkey_lua/commits">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoc 2014: Lua scripting support for Monkey, Week 5]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/22/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-22T23:17:22+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/22/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week I have been working on finishing up the request parsing
+functionality for the plugin. The plugin can now handle
+<code>application/x-www-form-urlencoded</code> as well as <code>multipart/form-data</code>
+encoded form data and thus should be able to handle file uploads as
+well although I haven&rsquo;t wired up the file-uploading part of the api yet.</p>
+
+<p>I also implemented a configuration option for turning debugging on
+or off which will decide whether a trace back of error will be send
+back as response. To easily test all these, I went ahead and made a
+blocking version for sending back the response. Everything seems to be
+working fine.</p>
+
+<h3>Next:</h3>
+
+<ul>
+<li>There is no cookie handling in the api yet although headers are
+  accessible, this has to be implemented.</li>
+<li>re-factor the code and remove errors that may have been introduced</li>
+<li>make the plugin work in a non-blocking way.</li>
+<li>decide upon how the duda package for the plugin should function</li>
+</ul>
+
+
+<h3>code:</h3>
+
+<p><a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for monkey, Week 4]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-16T03:32:05+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week I had been working on the completing the environment
+preparation for lua script execution. All basic tables <code>request</code>,
+<code>response</code> and <code>config</code> have been implemented as of now. I had been
+working on implementing some features that would make using the lua
+scripting support easier like better query string and post data
+parsing and also to provide a stack trace for easier error detection.I
+have updated the example script from last time to show, how the new
+features work.</p>
+
+<p>A few things tripped me up like monkeys lack of query string parsing
+and the fact that the query strings were not escaped caused some
+problems which have been taken care of.</p>
+
+<p>Next thing on my list is to write back the actual response from the
+plugin and before that I have to check the code with valgrind.</p>
+
+<p>code:
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for Monkey, Week 3]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-08T22:55:47+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I started out populating the the lua environment where the scripts
+will be executed using the lua C api. I am pushing a global lua table
+<code>mk</code> for the time being which would contain all the variables and
+functions that I am currently implementing.I have a function mk.print
+that will buffer everything and print to a static file. Currently we
+will have 3 tables under monkey, <code>config</code>, <code>request</code> and <code>response</code>.
+The <code>request</code> table will all the request headers in native lua types
+and the <code>response</code> table will have the defaults, which when modified
+read back to set response headers.</p>
+
+<p> <code>request</code> and <code>config</code> table have been implemented, <code>response</code> is yet
+ to be implemented and and the already implemented tables could use
+ some polish.</p>
+
+<p> I have also added an <a href="https://github.com/diadara/monkey_lua/blob/master/example/test.lua">example lua script</a> which shows how the current
+ api looks like.</p>
+
+<h3>Next Week</h3>
+
+<ul>
+<li>Finish up the environment preparation</li>
+<li>Start Working on thread safe lua execution</li>
+</ul>
+
+
+<p>CODE:
+I moved the plugin code to a new repo
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 2]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/02/gsoc-2014-week-2/"/>
+    <updated>2014-06-02T01:52:24+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/02/gsoc-2014-week-2</id>
+    <content type="html"><![CDATA[<p>This week started with the aim of setting up a unit testing framework
+for the plugin and do test driven development from now on wards. My
+configure function is working and I wanted to add a few tests so that
+everything could be tested automatically.I started out with learning
+how to use CUnit and made some basic tests. I got sick in between and
+had to take couple of days off in between and lost my flow. I also ran
+into complications as I wasn&rsquo;t  sure whether I could mock everything
+from the monkey api for testing. I am currently stuck on how to mock
+the monkey api for unit testing as I didn&rsquo;t want to compile the whole
+repository for unit testing the plugin.</p>
+
+<p>So I put the unit testing on hold for a while and started working on
+the environment preparation steps for running lua scripts. Unit testing
+these functions where easier to implement as I wont require session
+request. I have wrapped some of the config into a lua table that will
+be injected into the lua environment and the custom mk_print will be
+used to populate a buffer that will be used to set up the return the
+values to the user.</p>
+
+<p>Plan for next week:
+Clean up and consolidate all the work done till now so I can follow
+TDD and go at a faster pace from now on wards.</p>
+
+<ul>
+<li>Catch up to the schedule and figure out a way to setup unit testing
+properly</li>
+<li>finish the api for returning results</li>
+</ul>
+
+
+<p>I am slightly behind schedule as I rabbit holed a bit this week and
+also had to stay away from work due to some health issues.</p>
+
+<p>code:<a href="https://github.com/diadara/monkey/tree/lua-exp">github</a></p>
+
+<p>I am currently re factoring the code so that it, could be tested
+easily.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 1]]></title>
+    <link href="http://diadara.github.io/blog/2014/05/26/gsoc-monkey-project/"/>
+    <updated>2014-05-26T00:28:51+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/05/26/gsoc-monkey-project</id>
+    <content type="html"><![CDATA[<p>I was having my university exams during the last two weeks of
+community bonding period and couldn&rsquo;t dedicate as much time as I would
+have liked as my schedule became a little tight.I also lost a bit of
+time as I was moving and unfortunately lost my glasses. So my exams are
+finally over and I am fully focused on the coding work now.</p>
+
+<p>I started of the week by going through the lua programming manual and
+few applications of the Lua C api. I made a few sample programs to
+better understand the stack based api.I started working on the plugin
+and made a basic configuration reader for the plugin which is very
+similar to the CGI plugin. The scaffolding of the plugin is in place
+and I can get into building a basic version the next week.</p>
+
+<p>Most of my time this week was spend in reading code and identifying
+functions and data that should be exposed through the lua scripting
+framework. I haven&rsquo;t finalized the api yet and will have to discuss
+with Jorge about the same. I have currently decided up on wrapping
+certain data structures like the server config structure, the session
+request structure and a few others and injecting them as globals.Then
+they have to be read back. Another possible implementation could be
+using explicit function calls from the lua scripts for communication.</p>
+
+<h3>Work for next week</h3>
+
+<ul>
+<li>Complete a basic version of the plugin.</li>
+<li>Draft the api and start the implementation</li>
+</ul>
+
+
+<p>code: <a href="github">https://github.com/diadara/monkey/commits/lua-exp</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Monkey Project]]></title>
+    <link href="http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project/"/>
+    <updated>2014-04-28T23:20:01+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project</id>
+    <content type="html"><![CDATA[<p>I applied for GSoC this year also and fortunately the folks at
+<a href="http://monkey-project.com/">monkey-project</a> liked my proposal. My
+original proposal was to work on a dashboard for Raspberry Pi using
+the monkey webserver and the duda i/o framework built over it, however
+my mentors asked me whether I would be interested in working with them
+on another project. I was more than happy to say yes to them as this
+represented a more challenging project which I must admit, a little
+intimidating as I haven&rsquo;t had much experience in system programming
+apart from making some system calls and the server client programs you
+write in your computer networks course.</p>
+
+<p>The project I will be working on involves creating a Lua plugin for
+the monkey http server and also a memcached plugin for monkey-project.</p>
+
+<p>Lua is an embeddable scripting language that can be used to add some
+scripting capabilities to the monkey server. In addition to the usual
+dynamic content creation, the plugin should be also able to do some
+administrative tasks with the monkey server and also collect
+statistics on the various api calls.The second part of the project
+will be to integrate this functionality into duda as a duda package
+and design a API for it.</p>
+
+<p>The second project to be completed is developing a memcached plugin
+for monkey that can can interface application with the popular
+distributed in memory key value store database.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New year]]></title>
+    <link href="http://diadara.github.io/blog/2014/01/02/new-year/"/>
+    <updated>2014-01-02T00:10:22+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/01/02/new-year</id>
+    <content type="html"><![CDATA[<p>Last year was full of ups and downs and I can honestly say that I am a
+changed man.</p>
+
+<p><img src="images/post/red.jpeg" title="Rehabilitated" alt="alt text" /></p>
+
+<blockquote><p>You feel you&rsquo;ve been rehabilitated?</p>
+
+<p>Red: Yes, sir.
+Absolutely. I&rsquo;ve learned my lesson. I can honestly say I&rsquo;m a changed
+man. I&rsquo;m no longer a danger to society. That&rsquo;s the God&rsquo;s honest truth.
+No doubt about it.</p></blockquote>
+
+<p>I have burnt a lot of bridges this year and created a few. I have no
+regrets. One of the highlights of 2013 has been getting selected for
+<a href="GSoC">http://www.google-melange.com/gsoc/homepage/google/gsoc2013</a>.
+I had worked a lot to get selected and my acads suffered a lot because
+of that. The whole affair proved to me that you could probably do
+anything given time if you genuinely want to do it. I was also
+disappointed a bit with the whole affair as I found myself losing
+interest after sometime. I can&rsquo;t blame anything for it except my short
+attention span. In the end I barely scraped through. Again I did
+manage to learn a lot of stuff like python packaging, writing
+documentation and some related stuff.</p>
+
+<p>I have tried to learn at least half a dozen distinct languages this
+year and picked up a lot of things. The lack of mastery is the only
+thing that worries me. I have made it to point to focus on making
+things rather than learning stuff from now on. Let&rsquo;s seen how that
+pans out.</p>
+
+<p>Another important change this year has been, switching to Emacs. One
+thing I have noticed is how Emacs encourages it&rsquo;s users to look under
+that hood and hack stuff. I you don&rsquo;t understand a particular key
+binding or function just hit <code>C-h k</code> or <code>C-h f</code> and you will get the
+docs with a link to the source. I am sure this philosophy of
+everything is hackable will flow into the users day to day work flow.</p>
+
+<p>Also I managed to read a few books last year. I certainly plan to
+increase my book consumption  the coming year. Last year was pretty
+disappointing with respect to TV. Breaking Bad and Homeland were the
+only exceptions. Person of interest shown in intervals and that was
+enough to keep me coming back every week though the lack of
+alternatives must have been the main reason.</p>
+
+<p>This year I had signed up for a number of MOOCs and only managed to
+complete one. The one I managed to complete was BerkleyX&rsquo;s SaSS 1.
+It&rsquo;s a pretty challenging course If you haven&rsquo;t done any rails
+before.I learned a lot. I had signed up for the Scala course by Martin
+Oderski, the programming languages course in Coursera, Andrew NG&rsquo;s ML
+course, history of rock course on coursera, Georgia Tech&rsquo;s
+Computational Finance and a few others. I had left them due to the
+lack of time. Come to think of it I could have completed a couple if I
+had concentrated my efforts. One more thing to change.</p>
+
+<p>This year also saw Real Madrid and Arsenal both not winning anything.
+Hope both do well this year.</p>
+
+<p>So apart from the usual resolutions, the ones I hope to keep are</p>
+
+<ul>
+<li>read more.</li>
+<li>code more.</li>
+<li>complete some MOOCs(I have already signed up for a few)</li>
+<li>contribute more to open-source.</li>
+<li>master something.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC week 9 and 10 update]]></title>
+    <link href="http://diadara.github.io/blog/2013/09/01/gsoc-week-9-and-10-update/"/>
+    <updated>2013-09-01T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/09/01/gsoc-week-9-and-10-update</id>
+    <content type="html"><![CDATA[<p>For the past couple of weeks I have been mainly fixing errors and other issues
+that with the already ported packages caused mainly due to the reorganizing and
+renaming of their dependencies. Normalizer module will be used by all the
+modules instead of silpa_common normalizer.</p>
+
+<p>Another issue was that the template files had to renamed to reflect the change
+in module names as the framework expects the template to be of the same
+name as the package name.This behavior has  to be changed as packages may have
+more than one template or another cases where the template name has to be
+different from the package name. A possible solution is adding the template
+name in the  code itself But this will require changes in the way modules are
+required.</p>
+
+<p>I have also re-organized some of the tests and added the test suite to setup.py
+so that tests could be more easily rub with a  <code>python setup.py test</code>command.</p>
+
+<p>Apart from this I have partially ported
+<a href="https://github.com/diadara/indiccallendar">indiccallendar</a> (python backend
+working though the module is not fully finished yet ).I was also working on
+flask-webfonts.I have implemented the yaml based configuration for setting up
+font repositories. I am now rewriting the interface using jquery.webfonts
+extension.Jquery webfonts expects data to be  fed in a certain format which is
+slightly different  from the  flask webfonts currently available api.
+It was also planned to reduce the number of fields that has to be
+set manually in the font configuration using some sort of mechanism to extract
+metadata from the fonts files. I am yet to figure  out completely how to
+it effectively as a single font can come in multiple formats and may create
+conflicts in some cases.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC:Week 8 Update]]></title>
+    <link href="http://diadara.github.io/blog/2013/08/19/gsocweek-8-update/"/>
+    <updated>2013-08-19T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/08/19/gsocweek-8-update</id>
+    <content type="html"><![CDATA[<p>Webfonts flask extension is taking longer than expected partly because
+of my college work and also since I had to rewrite some parts of it
+multiple times.</p>
+
+<p>Present status:</p>
+
+<ul>
+<li>Api completed and usable with user supplied fonts</li>
+<li>Changed the interface from jinja2 to a http api front end</li>
+<li>Configurable urls and folders.</li>
+</ul>
+
+
+<p>TODO:</p>
+
+<ul>
+<li>documentation and testing</li>
+<li>clean up the api</li>
+<li>more features to the interface</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoc: Week 7 update]]></title>
+    <link href="http://diadara.github.io/blog/2013/08/12/gsoc-week-7-update/"/>
+    <updated>2013-08-12T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/08/12/gsoc-week-7-update</id>
+    <content type="html"><![CDATA[<p>I have been working on restructuring the webfonts flask extension to
+make it more user friendly and general purpose. I am rewriting the
+routes using method views to make the extension more compact and
+extensible. I am sticking with using the main app static folder for
+the fonts, and the user will have to pass a dictionary with the
+font list and locations of the font files to initialize the extension.</p>
+
+<p>The main objectives completed this week were:</p>
+
+<ul>
+<li>rewrite the extension using view classes</li>
+<li>improve the api so that routes and folder structures could be
+customized</li>
+<li>create a bare bones template that can be shipped with the extension</li>
+</ul>
+
+
+<p>I am having a little trouble organizing everything so that the
+extension remains modular.I was making some circular imports which can
+break in some cases. I have been going through source code of
+some of the larger extensions that provide interfaces like
+flask-dashed and flask-admin which uses class bsed views . I hope to
+release a working version in a couple of days and move into testing
+and documentation.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoc:Week 6 update]]></title>
+    <link href="http://diadara.github.io/blog/2013/08/04/gsocweek-6-update/"/>
+    <updated>2013-08-04T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/08/04/gsocweek-6-update</id>
+    <content type="html"><![CDATA[<p>This week I started work on flask webfonts extension.I use mitsuhiko&rsquo;s
+<a href="https://github.com/mitsuhiko/flask-extension-wizard">flask-extension-wizard</a>
+for the scaffolding and added the webfonts module as blueprint. The
+css api is working smoothly and and I have started working on the
+gallery interface. The interface I made was based on twitter bootstrap
+and used some of the javascript components. Also there are a few bugs
+and the code is somewhat messy, so I will be rewriting it.</p>
+
+<p>Also the current version of the extension comes with fonts included. I
+am trying to make it possible for users to add fonts to the
+repository. Currently this requires the user to use a folder inside
+the static folder of the main app. There are ways around this to serve
+fonts from any folder but these methods have security issues.</p>
+
+<p>The extension also has to handle factory pattern apps. The extension
+at it&rsquo;s current state can handle this but advanced features of the app
+object does not work. I have run into an issue with relative paths for
+specifying the font directory. Next objective will be to add all these
+missing features to the extension.</p>
+
+<p>You can follow the development on <a href="https://github.com/diadara/flask-webfonts">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gsoc: week 5 update]]></title>
+    <link href="http://diadara.github.io/blog/2013/07/27/gsoc-week-5-update/"/>
+    <updated>2013-07-27T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/07/27/gsoc-week-5-update</id>
+    <content type="html"><![CDATA[<p>Past week I had been trying to get the webfont module working properly
+and had some difficulty setting things up. There was an issue with the
+app returning different mime-types from localhost and openshift
+servers. Well it turn&rsquo;s out that I was setting the mime-type with
+<code>response.headers[&lsquo;content-type&rsquo;]</code> , now the response object
+has a built in mimetype method to set the mimetype .I spent an awful
+lot of time to figure out this reinventing the wheel by manually
+setting the headers.</p>
+
+<p>Rest of the week I worked on cleaning up the ui. The bootstrap
+<a href="http://www.eyecon.ro/bootstrap-slider/">slider</a> used for the slider
+looks brilliant but the controls were broken, seems like the author is
+not  very active and found the component to be a bit buggy and needed
+a few hacks to get it working. I found a fork of the project with some
+of the bugs fixed. I am considering migrating to this version of the
+plugin.</p>
+
+<p>I also spend some time getting familiar with the testing using
+unittest module as I have to add tests to the packages. I am not
+very familiar with all the functions of the ported packages so I will
+focus on creating very simple tests and later on expand the test
+coverage with the help of people more familiar with the respective
+languages and functions of all the modules.</p>
+
+<p>I had a discussion with my mentors on how this module should be added
+to silpa as this module does a very specialized operation, that is
+serving fonts using silpa-flask. Since it is not reusable, there&rsquo;s no
+point in keeping it as a standalone python package. Another option was
+to add the module to silpa-flask repository itself. Again this defeats
+the purpose of separation of silpa modules in silpa-flask. Copyninja
+suggested that this can be made into a generic flask extension which
+can be used in any flask application to add webfont support. So I
+spent some reading stuff on flask extensions.</p>
+
+<p>The extension will have to keep some high level of code
+<a href="http://flask.pocoo.org/docs/extensiondev/#approved-extensions">quality</a>
+to be accepted as an
+<a href="http://flask.pocoo.org/extensions/">official approved extension</a>. I
+believe this will be a very useful extension and can come in handy in
+a variety of situations. So I made an initial evaluation for this and
+it looks like I will have to write the extension from scratch however
+the template developed can be reused. I have started working on the
+flask extension and hopefully I can finish it this week itself.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: programming | Nithin Saji]]></title>
+  <link href="http://diadara.github.io/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for monkey, Week 4]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-16T03:32:05+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week I had been working on the completing the environment
+preparation for lua script execution. All basic tables <code>request</code>,
+<code>response</code> and <code>config</code> have been implemented as of now. I had been
+working on implementing some features that would make using the lua
+scripting support easier like better query string and post data
+parsing and also to provide a stack trace for easier error detection.I
+have updated the example script from last time to show, how the new
+features work.</p>
+
+<p>A few things tripped me up like monkeys lack of query string parsing
+and the fact that the query strings were not escaped caused some
+problems which have been taken care of.</p>
+
+<p>Next thing on my list is to write back the actual response from the
+plugin and before that I have to check the code with valgrind.</p>
+
+<p>code:
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for Monkey, Week 3]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-08T22:55:47+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I started out populating the the lua environment where the scripts
+will be executed using the lua C api. I am pushing a global lua table
+<code>mk</code> for the time being which would contain all the variables and
+functions that I am currently implementing.I have a function mk.print
+that will buffer everything and print to a static file. Currently we
+will have 3 tables under monkey, <code>config</code>, <code>request</code> and <code>response</code>.
+The <code>request</code> table will all the request headers in native lua types
+and the <code>response</code> table will have the defaults, which when modified
+read back to set response headers.</p>
+
+<p> <code>request</code> and <code>config</code> table have been implemented, <code>response</code> is yet
+ to be implemented and and the already implemented tables could use
+ some polish.</p>
+
+<p> I have also added an <a href="https://github.com/diadara/monkey_lua/blob/master/example/test.lua">example lua script</a> which shows how the current
+ api looks like.</p>
+
+<h3>Next Week</h3>
+
+<ul>
+<li>Finish up the environment preparation</li>
+<li>Start Working on thread safe lua execution</li>
+</ul>
+
+
+<p>CODE:
+I moved the plugin code to a new repo
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 2]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/02/gsoc-2014-week-2/"/>
+    <updated>2014-06-02T01:52:24+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/02/gsoc-2014-week-2</id>
+    <content type="html"><![CDATA[<p>This week started with the aim of setting up a unit testing framework
+for the plugin and do test driven development from now on wards. My
+configure function is working and I wanted to add a few tests so that
+everything could be tested automatically.I started out with learning
+how to use CUnit and made some basic tests. I got sick in between and
+had to take couple of days off in between and lost my flow. I also ran
+into complications as I wasn&rsquo;t  sure whether I could mock everything
+from the monkey api for testing. I am currently stuck on how to mock
+the monkey api for unit testing as I didn&rsquo;t want to compile the whole
+repository for unit testing the plugin.</p>
+
+<p>So I put the unit testing on hold for a while and started working on
+the environment preparation steps for running lua scripts. Unit testing
+these functions where easier to implement as I wont require session
+request. I have wrapped some of the config into a lua table that will
+be injected into the lua environment and the custom mk_print will be
+used to populate a buffer that will be used to set up the return the
+values to the user.</p>
+
+<p>Plan for next week:
+Clean up and consolidate all the work done till now so I can follow
+TDD and go at a faster pace from now on wards.</p>
+
+<ul>
+<li>Catch up to the schedule and figure out a way to setup unit testing
+properly</li>
+<li>finish the api for returning results</li>
+</ul>
+
+
+<p>I am slightly behind schedule as I rabbit holed a bit this week and
+also had to stay away from work due to some health issues.</p>
+
+<p>code:<a href="https://github.com/diadara/monkey/tree/lua-exp">github</a></p>
+
+<p>I am currently re factoring the code so that it, could be tested
+easily.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 1]]></title>
+    <link href="http://diadara.github.io/blog/2014/05/26/gsoc-monkey-project/"/>
+    <updated>2014-05-26T00:28:51+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/05/26/gsoc-monkey-project</id>
+    <content type="html"><![CDATA[<p>I was having my university exams during the last two weeks of
+community bonding period and couldn&rsquo;t dedicate as much time as I would
+have liked as my schedule became a little tight.I also lost a bit of
+time as I was moving and unfortunately lost my glasses. So my exams are
+finally over and I am fully focused on the coding work now.</p>
+
+<p>I started of the week by going through the lua programming manual and
+few applications of the Lua C api. I made a few sample programs to
+better understand the stack based api.I started working on the plugin
+and made a basic configuration reader for the plugin which is very
+similar to the CGI plugin. The scaffolding of the plugin is in place
+and I can get into building a basic version the next week.</p>
+
+<p>Most of my time this week was spend in reading code and identifying
+functions and data that should be exposed through the lua scripting
+framework. I haven&rsquo;t finalized the api yet and will have to discuss
+with Jorge about the same. I have currently decided up on wrapping
+certain data structures like the server config structure, the session
+request structure and a few others and injecting them as globals.Then
+they have to be read back. Another possible implementation could be
+using explicit function calls from the lua scripts for communication.</p>
+
+<h3>Work for next week</h3>
+
+<ul>
+<li>Complete a basic version of the plugin.</li>
+<li>Draft the api and start the implementation</li>
+</ul>
+
+
+<p>code: <a href="github">https://github.com/diadara/monkey/commits/lua-exp</a></p>
+]]></content>
+  </entry>
+  
+</feed>

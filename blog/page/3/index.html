@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Nithin Saji</title>
+  <meta name="author" content="Nithin Saji">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://diadara.github.io/blog/page/3">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="Nithin Saji" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nithin Saji</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <div class="blog-index">
+      
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-07-21T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/21/gsocweek4-update/">GSoC:Week4 Update</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>I had been away for most of the week as I had to attend a few
+functions .I managed to get some work done
+nevertheless. I had to rewrite the jinja template for the webfonts
+module from scratch and it took more time than expected as I ran into
+a few problems as I was not very familiar with the plugins to be used
+and documentation wasn&rsquo;t very clear either. The templates ui is still
+a little bit messy.</p>
+
+<p>I am still having problems with font-face syntax as fonts are not
+getting loaded in chromium and although firefox downloads the fonts,
+the glyphs are not displayed properly. Lack of errors also makes the
+bug difficult to fix. My current hypothesis is that the issue has
+something to do with the mimetypes. It&rsquo;s available on
+<a href="https://github.com/diadara/silpa-webfonts">github</a>.</p>
+
+<p>This week has been a struggle for me mainly due to the lack of error
+messages. I have been trying to get my version of silpa hosted on
+openshift without any luck. So it seems like I to read more documentation..</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-07-12T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/12/gsocweek3/">GSoc:Week3 Update</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>This week I completed the porting of <em>Katapayadi Numbers</em>. So all the modules
+except for dhwani TTS and webfonts modules have been ported. I tried a hand at
+porting dhwani, which is written in C with C++ apis. The python module was using
+CDLL and ctypes to directly use the c binaries. I tried to compile dhwani
+from source only to get a zlib headers missing error. <em>zlib</em> was already
+installed in my system and I also checked for zlib.h in /usr/includes. It looks like
+some tinkering around will be required for getting this to compile. So I
+decided to try later with a binary and moved on to the webfonts.</p>
+
+<p>Silpa has a webfonts module which provide webfonts for Indian languages
+which could be easily added to any site by simply linking a url. Since
+we have moved to flask most of the code had to be rewritten to get this
+module working. Now multiple fonts can be linked with a single url. I got
+the dynamic css part working but for some reason the fonts simply are not
+loading. The webfont module is using @font-face feature to include the fonts
+and <a href="http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/">this</a>
+is good article by Paul Irish on getting it to work across all browsers.
+I will try to host the site on openshift and try again to make sure the
+issue is not due to any problem with serving them from localhost.</p>
+
+<p>Also the webfonts module is written in two parts a normal python module
+which will fit into silpa and the webfonts serving api as a blueprint which
+allows me to simply attach it to flasks app object either at a urlprefix
+or a subdomain in a single line of code which is realy usefull. Flask is
+extremely flexible and you can organize your app as you please.</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-07-05T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/05/week2/">GSoC:Week 2 Update</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>I ran into some problems with virtualenvs last week and it took a quite
+a bit of time identifying and fixing the issue. I use
+<a href="https://github.com/Lokaltog/powerline">powerline</a> with tmux, vim and zsh and
+it&rsquo;s realy useful as I work mostly from a terminal and my window manager
+doesn&rsquo;t provide a taskbar. Powerline requires $PYTHONPATH to be set explicitly
+and archlinux comes with python3 as default, this can lead to problem&rsquo;s with
+python2 apps. This was a non issue in the beginning as I work inside a
+virtualenv. However I was working with a module which required cairo and
+pycairo doesen&rsquo;t play well with virtualenvs and it was trying to use systems
+pycairo module. This resulted in my systems python3 sitepackages path getting
+included in python path of the virtualenvs. Apart from this I also managed to
+do some permanant damage to my virtualenvs by force installing some packages.
+After finally figuring out what&rsquo;s wrong I ended up setting python path in the
+individual programs confs,  nuked .virtualenvwrapper directory and went for a
+clean install.</p>
+
+<p>So here is the porting tasks current status,</p>
+
+<ul>
+<li>TODO dhwani</li>
+<li>TODO webfonts</li>
+<li>TODO katapayadi numbers</li>
+<li>DONE fortune</li>
+<li>DONE text similarity</li>
+<li>DONE stemmer</li>
+<li>DONE shingling</li>
+<li>DONE sort</li>
+<li>DONE complex script rendere</li>
+<li>DONE approxsearch</li>
+<li>DONE dictionary</li>
+<li>DONE guesslang</li>
+<li>DONE payyans</li>
+<li>DONE spellcheck</li>
+<li>DONE transliterate</li>
+<li>DONE hyphenate</li>
+<li>DONE syllabalize</li>
+<li>DONE ngram</li>
+<li>DONE soundex</li>
+<li>DONE chardetails</li>
+</ul>
+
+
+<p>I have got the basic python packages and templates for the above modules, I
+still have to write unit tests, write proper documentation and go through the
+templates once again so that everything is consistent.Also I have to decide
+on names so that these can be released on pypi.</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-06-25T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/25/week-1-update/">GSoC:Week 1 Update</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>Coding period started on 17th and today is 25th and that calls for an update.
+I have discussed with my Mentor to reorganize the work differently from my
+proposal. Earlier I was planning to write the tests together with the
+modules (TDD). I thought it would be better if I do most of the testing and
+documentation to the last month of the programme as I want to spend moretime
+on porting tasks.</p>
+
+<h2>So progress till now:</h2>
+
+<h3>Separation of templates</h3>
+
+<p>I used jinja2&rsquo;s choice loader and package loader methods to look for
+templates in the templates folder of each of the individual packages and
+load them if there is no corresponding template in the templates folder of the
+main app. There is very good <a href="http://reliablybroken.com/b/2012/05/custom-template-folders-with-flask/">blog post</a>
+about how to do this. And flask is one of most well documented projects around
+and people at #pocoo were very helpful and I got  this implemented without
+much trouble.</p>
+
+<h4>Packaging</h4>
+
+<p>This has been a very informative task for me as I got to read a lot of
+kntresting stuff like <a href="http://www.clemesha.org/blog/modern-python-hacker-tools-virtualenv-fabric-pip/">this</a>
+and <a href="http://www.b-list.org/weblog/2008/dec/14/packaging/">this</a>. It seems
+python community is still confused about what to use for packaging as the
+options are plentiful. Distribute, distutils, setuptools and a lot of forking
+and merging. Silpa has been using setuptools with the neat setuptools-git
+extension which packages all the git tracked files into your package.</p>
+
+<h4>Fixing broken packages and PEP8</h4>
+
+<p>I also fixing some of the broken packages and doing some code cleaning to make
+them PEP8 compaliant.</p>
+
+<h3>New packages</h3>
+
+<p>I have ported syllabalizer and ngrams packages from silpa into their individual
+packages. You can find them here: <a href="https://github.com/diadara/syllabalizer">syllabalizer</a> ,
+<a href="https://github.com/diadara/n-gram">ngrams</a> (templates included).</p>
+
+<h3>What&rsquo;s next ?</h3>
+
+<ul>
+<li>port remaining modules starting with guesslanguage</li>
+<li>fix broken hyphenation module</li>
+</ul>
+
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-06-21T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/21/autoactivate-virtualenv-using-zsh-builtins/">Autoactivate Virtualenv Using Zsh Builtins</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>So I have been using virtualenv and virtualenvwrapper for managing python
+packages.If you are moving around in your directory tree it realy gets annoying
+if you have to activate the virtualenv everytime you openup a new tmuz pane or a
+terminal window.I have switched to zsh recently and just discovered a feature
+to automate this.Just simply put this in your .zshrc.</p>
+
+<div>
+  <pre><code class='bash'>function chpwd(){
+emulate  zsh
+if [ -e &quot;.venv&quot; ]; then
+    # Check to see if already activated to avoid redundant activating
+    if [ &quot;$VIRTUAL_ENV&quot; != &quot;$VIRTUALENVWRAPPER_HOOK_DIR/`cat .venv`&quot; ]; then
+        _VENV_NAME=`cat .venv`
+        echo Activating virtualenv $_VENV_NAME
+        workon $_VENV_NAME
+    fi
+fi
+}</code></pre>
+</div>
+
+
+<p>You have to create a .venv file in your working directory with name
+of the virtualenv in it  to make use of this.There are plenty of similar solutions even if you don&rsquo;t use zsh (which you should)</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-06-13T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/13/emacs-by-a-vim-user/">Emacs by a Vim User</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>I have been meaning to pick up emacs and thought of giving it a try.
+Even for a new user, emacs looks damn cool.I have heard of emacs being
+a good os and a bad text editor.After a couple of weeks of and on usage
+I have to agree.Running a terminal, irc client,mail reader,terminal inside
+a buffer is cool.But if feel I was more productive after using vim for
+a shorter period of time.</p>
+
+<h2>Emacs doesn&rsquo;t have text objects</h2>
+
+<p>My favourite feature in vim are text objects and they instantly justified
+my effort in learning vim.Text objects together with vim-surround plugin
+instantly improves your editing speed if you are working with html or xml.
+Emacs doesn&rsquo;t have that by default.Installing a plugin for that
+functionality wasn&rsquo;t very appealing to me.</p>
+
+<h2>Emacsrocks</h2>
+
+<p>I happened to watch a couple of videos at emacs rocks and
+oh was I impressed! Emacs can be efficient as vim but it seems like I
+need to memorize quite a bit more.I am not giving up hope, may be one day
+I will get good with emacs.Living inside a text editor doesn&rsquo;t sound too
+bad.</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-06-11T13:23:31+05:30" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/11/gsoc-python-flask-SMC/">GSoC, Flask, Python, SMC and SILPA</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p><img src="/images/soc-logo-bw2.jpg" alt="Google Summer of Code 2013" /></p>
+
+<p>One more attempt at blogging and I will probably continue with this at least
+for this summer. My proposal for this years Google Summer of Code  got through
+and I will be writing code for <a href="http://smc.org.in/">Swathanthra Malayalam Computing</a> this
+summer. <a href="http://smc.org.in/">SMC</a> is community of open source enthusiasts interested in
+creating software for people to use in their language of choice. They maintain
+font repositories and take part in <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">i18n</a> of popular software as well as
+maintain a few projects such as <a href="http://silpa.org.in/">SILPA</a>, Dhwani TTS and also provide an
+indic webfonts service. For a full list of their activities do visit their
+<a href="http://smc.org.in/">site</a>.</p>
+
+<p>My proposal was to complete the porting of <a href="http://silpa.org.in/">SILPA</a>, the language
+processing package into a more modular structure using the <a href="http://flask.pocoo.org/">flask</a> micro
+web framework written in python. Jishnu Mohan  is my alloted mentor for the
+project with Vasudev Kammath (aka copyninja) and Santhosh Thotingal acting
+as a secondary mentor.They are the current maintainers of the project which aims
+to bring  language processing tools for indic languages.</p>
+
+<p>The community bonding period started on 28th May
+and I am supposed to read the documentation and go through the source code and interact
+with the community members till the coding period kicks off at 21st of June.For
+the last two weeks I have been idling on #pocoo on freenode (these guys made flask,
+ jinja2 and a lot of other cool python projects) and the people there
+seemed to be really cool and are helpful to n00bs.I have been looking at some
+python packaging tools, unittesting frameworks and PEP recommendations for
+packaging.SILPA is currently using setup tools, with the setup-tools-git
+extension which adds all the git tracked files into the python package without
+the need of any fiddling around in the MANIFEST.in file.I will be using pythons
+built in unittest framework, unittest to write tests for this project.I had taken
+<a href="http://edx.org">edX&rsquo;s</a> SaaS class last semester,(which is a very good course,
+very challenging if you don&rsquo;t know ruby, like me when I took the course)
+where I heard a lot about Test Driven Development and hope to
+follow some good coding practices for this project.</p>
+
+<p>I have made some prototypes for the proposed template separation and hope to hit
+the road running when the coding period starts.Till then  more
+code reading to get familiar  with all the modules of silpa. Since I have a little time
+on my hands now, I have some spring cleaning to do(or rather summer cleaning or formatting my
+archlinux system, a new .vimrc and a new playlist).I have learnt a lot as a
+developper during the gsoc application period and I am sure I will learn even
+more.That&rsquo;s it for now, the talk is done, next time there will be some code
+to show.</p>
+
+<blockquote><p>Talk is cheap. Show me the code.
+Torvalds, Linus (2000-08-25). Message to linux-kernel mailing list. Retrieved on 2006-08-28.</p></blockquote>
+</div>
+  
+  
+
+
+        </article>
+      
+    </div>
+
+    <ul class="pager">
+      
+        <li class="previous disabled"><a href="#">&larr;&nbsp;Older</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+        <li class="next"><a href="/blog/page/2/">Newer&nbsp;&rarr;</a></li>
+      
+    </ul>
+  </div>
+
+  
+    <aside class="sidebar col-md-3">
+      
+        <section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item " href="/blog/2014/08/18/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey</a>
+    
+    <a class="list-group-item " href="/blog/2014/08/11/gsoc-2014-lua-scripting-support-for-monkey/">GsoC 2014: Lua Scripting Support for Monkey, Week 12</a>
+    
+    <a class="list-group-item " href="/blog/2014/08/04/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 11</a>
+    
+    <a class="list-group-item " href="/blog/2014/07/28/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 10</a>
+    
+    <a class="list-group-item " href="/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 9</a>
+    
+  </div>
+</section>
+
+
+
+
+
+
+      
+    </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - Nithin Saji<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

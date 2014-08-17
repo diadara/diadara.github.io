@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: hack | Nithin Saji]]></title>
+  <link href="http://diadara.github.io/blog/categories/hack/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Monkey Project]]></title>
+    <link href="http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project/"/>
+    <updated>2014-04-28T23:20:01+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project</id>
+    <content type="html"><![CDATA[<p>I applied for GSoC this year also and fortunately the folks at
+<a href="http://monkey-project.com/">monkey-project</a> liked my proposal. My
+original proposal was to work on a dashboard for Raspberry Pi using
+the monkey webserver and the duda i/o framework built over it, however
+my mentors asked me whether I would be interested in working with them
+on another project. I was more than happy to say yes to them as this
+represented a more challenging project which I must admit, a little
+intimidating as I haven&rsquo;t had much experience in system programming
+apart from making some system calls and the server client programs you
+write in your computer networks course.</p>
+
+<p>The project I will be working on involves creating a Lua plugin for
+the monkey http server and also a memcached plugin for monkey-project.</p>
+
+<p>Lua is an embeddable scripting language that can be used to add some
+scripting capabilities to the monkey server. In addition to the usual
+dynamic content creation, the plugin should be also able to do some
+administrative tasks with the monkey server and also collect
+statistics on the various api calls.The second part of the project
+will be to integrate this functionality into duda as a duda package
+and design a API for it.</p>
+
+<p>The second project to be completed is developing a memcached plugin
+for monkey that can can interface application with the popular
+distributed in memory key value store database.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Autoactivate virtualenv using zsh builtins]]></title>
+    <link href="http://diadara.github.io/blog/2013/06/21/autoactivate-virtualenv-using-zsh-builtins/"/>
+    <updated>2013-06-21T00:00:00+05:30</updated>
+    <id>http://diadara.github.io/blog/2013/06/21/autoactivate-virtualenv-using-zsh-builtins</id>
+    <content type="html"><![CDATA[<p>So I have been using virtualenv and virtualenvwrapper for managing python
+packages.If you are moving around in your directory tree it realy gets annoying
+if you have to activate the virtualenv everytime you openup a new tmuz pane or a
+terminal window.I have switched to zsh recently and just discovered a feature
+to automate this.Just simply put this in your .zshrc.
+<div>
+  <pre><code class='bash'>&lt;/p&gt;
+
+&lt;p&gt;function chpwd(){
+emulate  zsh
+if [ -e &amp;ldquo;.venv&amp;rdquo; ]; then&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Check to see if already activated to avoid redundant activating
+if [ &quot;$VIRTUAL_ENV&quot; != &quot;$VIRTUALENVWRAPPER_HOOK_DIR/`cat .venv`&quot; ]; then
+    _VENV_NAME=`cat .venv`
+    echo Activating virtualenv $_VENV_NAME
+    workon $_VENV_NAME
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;fi
+}&lt;/p&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<p>You have to create a .venv file in your working directory with name
+of the virtualenv in it  to make use of this.There are plenty of similar solutions even if you don&rsquo;t use zsh (which you should)</p>
+]]></content>
+  </entry>
+  
+</feed>

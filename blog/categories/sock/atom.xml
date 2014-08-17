@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sock | Nithin Saji]]></title>
+  <link href="http://diadara.github.io/blog/categories/sock/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 9]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-21T21:30:35+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I have completed a bare version of the plugin and started working on
+code for monitoring lua&rsquo;s resource usage. Last week was mostly spend
+on wiring everything together from last weeks work. I have also
+started reading code for integrating the plugin with duda. I haven&rsquo;t
+figured out how to proceed on it and haven&rsquo;t been able to get in touch
+with Jorge this week. I will discuss with him on how to proceed next
+week.</p>
+
+<p>Most of the work this week was mostly re-factoring my old code to fit
+in with the the plugin system and reading</p>
+
+<p>code: <a href="https://github.com/diadara/monkey_lua">https://github.com/diadara/monkey_lua</a></p>
+]]></content>
+  </entry>
+  
+</feed>

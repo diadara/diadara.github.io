@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GSoc: Week 7 update - Nithin Saji</title>
+  <meta name="author" content="Nithin Saji">
+
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://diadara.github.io/blog/2013/08/12/gsoc-week-7-update">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="Nithin Saji" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nithin Saji</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <article class="hentry" role="article">
+      
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-12T00:00:00+05:30" pubdate data-updated="true"></time>
+        
+      </p>
+    
+    
+    <h1 class="entry-title">
+        GSoc: Week 7 Update
+        
+    </h1>
+    
+  </header>
+
+
+<div class="entry-content clearfix"><p>I have been working on restructuring the webfonts flask extension to
+make it more user friendly and general purpose. I am rewriting the
+routes using method views to make the extension more compact and
+extensible. I am sticking with using the main app static folder for
+the fonts, and the user will have to pass a dictionary with the
+font list and locations of the font files to initialize the extension.</p>
+
+<p>The main objectives completed this week were:</p>
+
+<ul>
+<li>rewrite the extension using view classes</li>
+<li>improve the api so that routes and folder structures could be
+customized</li>
+<li>create a bare bones template that can be shipped with the extension</li>
+</ul>
+
+
+<p>I am having a little trouble organizing everything so that the
+extension remains modular.I was making some circular imports which can
+break in some cases. I have been going through source code of
+some of the larger extensions that provide interfaces like
+flask-dashed and flask-admin which uses class bsed views . I hope to
+release a working version in a couple of days and move into testing
+and documentation.</p>
+</div>
+
+
+      <footer>
+        <p class="meta text-muted">
+          
+  
+
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">Nithin Saji</span></span>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-12T00:00:00+05:30" pubdate data-updated="true"></time>
+          
+
+<span class="glyphicon glyphicon-tags"></span>&nbsp;
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gsoc/'>gsoc</a>
+  
+</span>
+
+
+        </p>
+        
+          <div class="sharing">
+  
+  
+  
+</div>
+
+        
+        
+          <ul class="meta text-muted pager">
+            
+            <li class="previous"><a href="/blog/2013/08/04/gsocweek-6-update/" title="Previous Post: GSoc:Week 6 update">&laquo; GSoc:Week 6 update</a></li>
+            
+            
+            <li class="next"><a href="/blog/2013/08/19/gsocweek-8-update/" title="Next Post: GSoC:Week 8 Update">GSoC:Week 8 Update &raquo;</a></li>
+            
+          </ul>
+        
+      </footer>
+    </article>
+    
+  </div>
+
+  
+  <aside class="sidebar col-md-3">
+    
+      <section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item " href="/blog/2014/08/18/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey</a>
+    
+    <a class="list-group-item " href="/blog/2014/08/11/gsoc-2014-lua-scripting-support-for-monkey/">GsoC 2014: Lua Scripting Support for Monkey, Week 12</a>
+    
+    <a class="list-group-item " href="/blog/2014/08/04/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 11</a>
+    
+    <a class="list-group-item " href="/blog/2014/07/28/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 10</a>
+    
+    <a class="list-group-item " href="/blog/2014/07/21/gsoc-2014-lua-scripting-support-for-monkey/">GSoC 2014: Lua Scripting Support for Monkey, Week 9</a>
+    
+  </div>
+</section>
+
+
+
+
+
+
+    
+  </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - Nithin Saji<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

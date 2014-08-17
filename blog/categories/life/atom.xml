@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: life | Nithin Saji]]></title>
+  <link href="http://diadara.github.io/blog/categories/life/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Monkey Project]]></title>
+    <link href="http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project/"/>
+    <updated>2014-04-28T23:20:01+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/04/28/gsoc-2014-monkey-project</id>
+    <content type="html"><![CDATA[<p>I applied for GSoC this year also and fortunately the folks at
+<a href="http://monkey-project.com/">monkey-project</a> liked my proposal. My
+original proposal was to work on a dashboard for Raspberry Pi using
+the monkey webserver and the duda i/o framework built over it, however
+my mentors asked me whether I would be interested in working with them
+on another project. I was more than happy to say yes to them as this
+represented a more challenging project which I must admit, a little
+intimidating as I haven&rsquo;t had much experience in system programming
+apart from making some system calls and the server client programs you
+write in your computer networks course.</p>
+
+<p>The project I will be working on involves creating a Lua plugin for
+the monkey http server and also a memcached plugin for monkey-project.</p>
+
+<p>Lua is an embeddable scripting language that can be used to add some
+scripting capabilities to the monkey server. In addition to the usual
+dynamic content creation, the plugin should be also able to do some
+administrative tasks with the monkey server and also collect
+statistics on the various api calls.The second part of the project
+will be to integrate this functionality into duda as a duda package
+and design a API for it.</p>
+
+<p>The second project to be completed is developing a memcached plugin
+for monkey that can can interface application with the popular
+distributed in memory key value store database.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New year]]></title>
+    <link href="http://diadara.github.io/blog/2014/01/02/new-year/"/>
+    <updated>2014-01-02T00:10:22+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/01/02/new-year</id>
+    <content type="html"><![CDATA[<p>Last year was full of ups and downs and I can honestly say that I am a
+changed man.</p>
+
+<p><img src="images/post/red.jpeg" title="Rehabilitated" alt="alt text" /></p>
+
+<blockquote><p>You feel you&rsquo;ve been rehabilitated?</p>
+
+<p>Red: Yes, sir.
+Absolutely. I&rsquo;ve learned my lesson. I can honestly say I&rsquo;m a changed
+man. I&rsquo;m no longer a danger to society. That&rsquo;s the God&rsquo;s honest truth.
+No doubt about it.</p></blockquote>
+
+<p>I have burnt a lot of bridges this year and created a few. I have no
+regrets. One of the highlights of 2013 has been getting selected for
+<a href="GSoC">http://www.google-melange.com/gsoc/homepage/google/gsoc2013</a>.
+I had worked a lot to get selected and my acads suffered a lot because
+of that. The whole affair proved to me that you could probably do
+anything given time if you genuinely want to do it. I was also
+disappointed a bit with the whole affair as I found myself losing
+interest after sometime. I can&rsquo;t blame anything for it except my short
+attention span. In the end I barely scraped through. Again I did
+manage to learn a lot of stuff like python packaging, writing
+documentation and some related stuff.</p>
+
+<p>I have tried to learn at least half a dozen distinct languages this
+year and picked up a lot of things. The lack of mastery is the only
+thing that worries me. I have made it to point to focus on making
+things rather than learning stuff from now on. Let&rsquo;s seen how that
+pans out.</p>
+
+<p>Another important change this year has been, switching to Emacs. One
+thing I have noticed is how Emacs encourages it&rsquo;s users to look under
+that hood and hack stuff. I you don&rsquo;t understand a particular key
+binding or function just hit <code>C-h k</code> or <code>C-h f</code> and you will get the
+docs with a link to the source. I am sure this philosophy of
+everything is hackable will flow into the users day to day work flow.</p>
+
+<p>Also I managed to read a few books last year. I certainly plan to
+increase my book consumption  the coming year. Last year was pretty
+disappointing with respect to TV. Breaking Bad and Homeland were the
+only exceptions. Person of interest shown in intervals and that was
+enough to keep me coming back every week though the lack of
+alternatives must have been the main reason.</p>
+
+<p>This year I had signed up for a number of MOOCs and only managed to
+complete one. The one I managed to complete was BerkleyX&rsquo;s SaSS 1.
+It&rsquo;s a pretty challenging course If you haven&rsquo;t done any rails
+before.I learned a lot. I had signed up for the Scala course by Martin
+Oderski, the programming languages course in Coursera, Andrew NG&rsquo;s ML
+course, history of rock course on coursera, Georgia Tech&rsquo;s
+Computational Finance and a few others. I had left them due to the
+lack of time. Come to think of it I could have completed a couple if I
+had concentrated my efforts. One more thing to change.</p>
+
+<p>This year also saw Real Madrid and Arsenal both not winning anything.
+Hope both do well this year.</p>
+
+<p>So apart from the usual resolutions, the ones I hope to keep are</p>
+
+<ul>
+<li>read more.</li>
+<li>code more.</li>
+<li>complete some MOOCs(I have already signed up for a few)</li>
+<li>contribute more to open-source.</li>
+<li>master something.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

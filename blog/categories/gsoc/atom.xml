@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gsoc, | Nithin Saji]]></title>
+  <link href="http://diadara.github.io/blog/categories/gsoc/atom.xml" rel="self"/>
+  <link href="http://diadara.github.io/"/>
+  <updated>2014-08-18T01:19:13+05:30</updated>
+  <id>http://diadara.github.io/</id>
+  <author>
+    <name><![CDATA[Nithin Saji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 7]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/07/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-07T06:22:55+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/07/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week, I was trying to get a better Idea about event driven
+programming especially using epoll in specific so that I can integrate
+the plugin with monkey. I found a bunch of great resources for
+understanding epoll as well as other strategies and system calls
+available in various operating systems to achieve concurrency.</p>
+
+<p><a href="http://kovyrin.net/2006/04/13/epoll-asynchronous-network-programming/">http://kovyrin.net/2006/04/13/epoll-asynchronous-network-programming/</a></p>
+
+<p><a href="http://www.wangafu.net/~nickm/libevent-book/01_intro.html">http://www.wangafu.net/~nickm/libevent-book/01_intro.html</a></p>
+
+<p>I started working on sending the response back to the client by
+hooking to the epoll callbacks instead of the blocking way I was using
+till now to get things done till now.</p>
+
+<p>Also, I was looking at a way to execute the lua code in a non
+blocking way. The popular approach is to use a watchdog timer or
+something along the lines mentioned in this thread</p>
+
+<p><a href="http://lua-users.org/wiki/NonBlockingLuaExecution">http://lua-users.org/wiki/NonBlockingLuaExecution</a></p>
+
+<p><a href="http://lua.2524044.n2.nabble.com/Nonblocking-script-execution-td7641186.html">http://lua.2524044.n2.nabble.com/Nonblocking-script-execution-td7641186.html</a></p>
+
+<p>I still haven&rsquo;t figured out a working way to make everything work
+together and so haven&rsquo;t pushed in my changes as I am running into some
+errors.</p>
+
+<p>I had to move to a new apartment this week and was under some time
+constraints and this weeks work required a lot more reading before I
+started coding so, that leaves me with no working code till now, I
+will try to fix up my code and push it by tonight.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua Scripting Support for Monkey, Week 6]]></title>
+    <link href="http://diadara.github.io/blog/2014/07/01/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-07-01T00:38:16+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/07/01/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>Last week, I started to  re-factor the code I had already written for
+the plugin. During the course of the project, I have been reading
+source code from  ngnix and apache respective lua modules to
+understand good coding patterns for lua and to understand good ways
+for getting things done. I am using LUA&rsquo;s lightuserdata that allows to
+access C datastructures from LUA code and also wrote a bunch of
+functions to help building on top of it easier. Also I have tried to
+make the code more modular.</p>
+
+<p>I was also working on adding cookie support to the lua environment,
+which took more time than I had expected. You
+can get a table of all the set cookies from <code>mk.cookies.get_cookies()</code>
+function call and set a cookie by this syntax
+<code>mk.cookie.set_cookie{name=[name], value=[value], secure=true,
+expires= os.time()+ 60*60*12}</code></p>
+
+<h4>Next Week:</h4>
+
+<ul>
+<li>Make the response in a non blocking way</li>
+<li>Start work on the duda plugin</li>
+</ul>
+
+
+<h3>code:</h3>
+
+<p><a href="https://github.com/diadara/monkey_lua/commits">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoc 2014: Lua scripting support for Monkey, Week 5]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/22/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-22T23:17:22+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/22/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week I have been working on finishing up the request parsing
+functionality for the plugin. The plugin can now handle
+<code>application/x-www-form-urlencoded</code> as well as <code>multipart/form-data</code>
+encoded form data and thus should be able to handle file uploads as
+well although I haven&rsquo;t wired up the file-uploading part of the api yet.</p>
+
+<p>I also implemented a configuration option for turning debugging on
+or off which will decide whether a trace back of error will be send
+back as response. To easily test all these, I went ahead and made a
+blocking version for sending back the response. Everything seems to be
+working fine.</p>
+
+<h3>Next:</h3>
+
+<ul>
+<li>There is no cookie handling in the api yet although headers are
+  accessible, this has to be implemented.</li>
+<li>re-factor the code and remove errors that may have been introduced</li>
+<li>make the plugin work in a non-blocking way.</li>
+<li>decide upon how the duda package for the plugin should function</li>
+</ul>
+
+
+<h3>code:</h3>
+
+<p><a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for monkey, Week 4]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-16T03:32:05+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/16/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>This week I had been working on the completing the environment
+preparation for lua script execution. All basic tables <code>request</code>,
+<code>response</code> and <code>config</code> have been implemented as of now. I had been
+working on implementing some features that would make using the lua
+scripting support easier like better query string and post data
+parsing and also to provide a stack trace for easier error detection.I
+have updated the example script from last time to show, how the new
+features work.</p>
+
+<p>A few things tripped me up like monkeys lack of query string parsing
+and the fact that the query strings were not escaped caused some
+problems which have been taken care of.</p>
+
+<p>Next thing on my list is to write back the actual response from the
+plugin and before that I have to check the code with valgrind.</p>
+
+<p>code:
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GSoC 2014: Lua scripting support for Monkey, Week 3]]></title>
+    <link href="http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey/"/>
+    <updated>2014-06-08T22:55:47+05:30</updated>
+    <id>http://diadara.github.io/blog/2014/06/08/gsoc-2014-lua-scripting-support-for-monkey</id>
+    <content type="html"><![CDATA[<p>I started out populating the the lua environment where the scripts
+will be executed using the lua C api. I am pushing a global lua table
+<code>mk</code> for the time being which would contain all the variables and
+functions that I am currently implementing.I have a function mk.print
+that will buffer everything and print to a static file. Currently we
+will have 3 tables under monkey, <code>config</code>, <code>request</code> and <code>response</code>.
+The <code>request</code> table will all the request headers in native lua types
+and the <code>response</code> table will have the defaults, which when modified
+read back to set response headers.</p>
+
+<p> <code>request</code> and <code>config</code> table have been implemented, <code>response</code> is yet
+ to be implemented and and the already implemented tables could use
+ some polish.</p>
+
+<p> I have also added an <a href="https://github.com/diadara/monkey_lua/blob/master/example/test.lua">example lua script</a> which shows how the current
+ api looks like.</p>
+
+<h3>Next Week</h3>
+
+<ul>
+<li>Finish up the environment preparation</li>
+<li>Start Working on thread safe lua execution</li>
+</ul>
+
+
+<p>CODE:
+I moved the plugin code to a new repo
+<a href="https://github.com/diadara/monkey_lua">github</a></p>
+]]></content>
+  </entry>
+  
+</feed>
